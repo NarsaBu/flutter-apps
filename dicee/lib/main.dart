@@ -4,41 +4,51 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _State createState() => _State();
+}
+
+class _State extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.red,
         appBar: AppBar(
+          title: Text('Dicee'),
           backgroundColor: Colors.red,
-          title: const Text('Dicee'),
         ),
-        body: _rowCreator(),
+        body: _createRow(),
       ),
     );
   }
 
-  Row _rowCreator() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _imageCreator(),
-        _imageCreator(),
-      ],
+  Center _createRow() {
+    return Center(
+      child: Row(
+        children: [
+          _createDice(),
+          _createDice(),
+        ],
+      ),
     );
   }
 
-  Expanded _imageCreator() {
-    var dice = Random().nextInt(7 - 1);
+  Expanded _createDice() {
+    int diceNumber = 1 + Random().nextInt(6);
 
     return Expanded(
-      child: TextButton(
-        onPressed: () {
-          dice = Random().nextInt(7 - 1);
-        },
-        child: Image.asset('images/dice$dice.png'),
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: TextButton(
+          child: Image.asset('images/dice$diceNumber.png'),
+          onPressed: () {
+            setState(() {
+              diceNumber = 1 + Random().nextInt(6);
+            });
+          },
+        ),
       ),
     );
   }
