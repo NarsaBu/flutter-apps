@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 
 import 'constants.dart';
 
+int height = 180;
+
 class SliderCard extends StatefulWidget {
   @override
   _SliderCardState createState() => _SliderCardState();
 }
 
 class _SliderCardState extends State<SliderCard> {
-  int height = 180;
-
   @override
   Widget build(BuildContext context) {
     return Expanded(

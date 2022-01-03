@@ -1,9 +1,13 @@
+import 'package:bmi_calculator/calculator_brain.dart';
+import 'package:bmi_calculator/result_page.dart';
+import 'package:bmi_calculator/round_icon_button.dart';
 import 'package:bmi_calculator/sex.dart';
 import 'package:bmi_calculator/sex_card.dart';
 import 'package:bmi_calculator/slider_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'bottom_button.dart';
 import 'constants.dart';
 import 'reusable_card.dart';
 
@@ -17,6 +21,7 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Sex? _selectedSex;
   int weight = 60;
+  int age = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +35,23 @@ class _InputPageState extends State<InputPage> {
           _createMaleFemaleRow(),
           SliderCard(),
           _createReusableDoubleCardRow(),
-          Container(
-            color: kBottomContainerColor,
-            margin: EdgeInsets.only(top: 10.0),
-            width: double.infinity,
-            height: kBottomContainerHeight,
-          ),
+          BottomButton(
+              onTap: () {
+                CalculatorBrain calc =
+                    CalculatorBrain(height: height, weight: weight);
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResultPage(
+                      bmiResult: calc.calculateBmi(),
+                      resultText: calc.getResult(),
+                      interpretation: calc.getInterpretation(),
+                    ),
+                  ),
+                );
+              },
+              buttonTitle: 'CALCULATE'),
         ],
       ),
     );
@@ -63,24 +79,24 @@ class _InputPageState extends State<InputPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      FloatingActionButton(
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
-                        backgroundColor: kButtonColor,
-                        onPressed: () {},
+                      RoundIconButton(
+                        icon: FontAwesomeIcons.minus,
+                        onPressed: () {
+                          setState(() {
+                            weight--;
+                          });
+                        },
                       ),
                       SizedBox(
                         width: 10.0,
                       ),
-                      FloatingActionButton(
-                        child: Icon(
-                          Icons.,
-                          color: Colors.white,
-                        ),
-                        backgroundColor: kButtonColor,
-                        onPressed: () {},
+                      RoundIconButton(
+                        icon: FontAwesomeIcons.plus,
+                        onPressed: () {
+                          setState(() {
+                            weight++;
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -91,9 +107,42 @@ class _InputPageState extends State<InputPage> {
           Expanded(
             child: ReusableCard(
               color: kReusableInactiveCardColor,
-              cardChild: Icon(
-                FontAwesomeIcons.yoast,
-                size: 80.0,
+              cardChild: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'AGE',
+                    style: kLabelTextStyle,
+                  ),
+                  Text(
+                    age.toString(),
+                    style: kNumberTextStyle,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RoundIconButton(
+                        icon: FontAwesomeIcons.minus,
+                        onPressed: () {
+                          setState(() {
+                            age--;
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      RoundIconButton(
+                        icon: FontAwesomeIcons.plus,
+                        onPressed: () {
+                          setState(() {
+                            age++;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
