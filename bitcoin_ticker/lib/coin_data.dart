@@ -28,4 +28,8 @@ const List<String> cryptoList = [
   'LTC',
 ];
 
-class CoinData {}
+class CoinData {
+  late int btc;
+  late int eth;
+  late int ltc;
+}
